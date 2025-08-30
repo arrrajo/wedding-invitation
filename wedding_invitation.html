@@ -3,9 +3,101 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
+  
+  <!-- 모바일 최적화 메타 태그들 추가 -->
+  <meta name="format-detection" content="telephone=no" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="default" />
+  <meta name="apple-mobile-web-app-title" content="모바일 청첩장" />
+  <meta name="mobile-web-app-capable" content="yes" />
+  <meta name="theme-color" content="#ffffff" />
+  <meta name="msapplication-TileColor" content="#ffffff" />
+  
+  <!-- PWA 아이콘 -->
+  <link rel="icon" type="image/png" sizes="32x32" href="images/favicon-32x32.png" />
+  <link rel="icon" type="image/png" sizes="16x16" href="images/favicon-16x16.png" />
+  <link rel="apple-touch-icon" sizes="180x180" href="images/apple-touch-icon.png" />
+  <link rel="manifest" href="manifest.json" />
+  
   <title>모바일 청첩장</title>
   <link rel="stylesheet" as="style" crossorigin href="https://fonts.googleapis.com/css2?family=Noto+Serif+KR:wght@400;500;600;700&display=swap" />
+
   <style>
+    /* 모바일 최적화 CSS - 맨 앞에 추가 */
+    * {
+      -webkit-tap-highlight-color: transparent;
+      -webkit-touch-callout: none;
+      -webkit-user-select: none;
+      -khtml-user-select: none;
+      -moz-user-select: none;
+      -ms-user-select: none;
+      user-select: none;
+    }
+
+    /* 텍스트 선택 허용 (계좌번호 등) */
+    .account-number, .btn-action {
+      -webkit-user-select: text;
+      -moz-user-select: text;
+      -ms-user-select: text;
+      user-select: text;
+    }
+
+    /* 모바일 터치 영역 최적화 */
+    .btn-rsvp, .btn-action, .c-account .title {
+      min-height: 44px;
+      min-width: 44px;
+    }
+
+    /* 모바일 스크롤 최적화 */
+    body {
+      -webkit-overflow-scrolling: touch;
+      overflow-scrolling: touch;
+    }
+
+    /* 모바일 폰트 렌더링 최적화 */
+    body {
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+      text-rendering: optimizeLegibility;
+    }
+
+    /* 모바일 이미지 최적화 */
+    img {
+      max-width: 100%;
+      height: auto;
+      -webkit-user-drag: none;
+      -khtml-user-drag: none;
+      -moz-user-drag: none;
+      -o-user-drag: none;
+      user-drag: none;
+    }
+
+    /* 모바일 버튼 터치 피드백 */
+    .btn-rsvp:active, .btn-action:active, .c-account .title:active {
+      transform: scale(0.98);
+      transition: transform 0.1s ease;
+    }
+
+    /* 모바일 모달 최적화 */
+    .modal-overlay {
+      -webkit-overflow-scrolling: touch;
+      overflow-scrolling: touch;
+    }
+
+    /* 모바일 갤러리 터치 최적화 */
+    .gallery-grid img {
+      touch-action: manipulation;
+    }
+
+    /* 모바일 복사 버튼 터치 영역 확대 */
+    .account-row .btn-action {
+      padding: 0.5rem 0.75rem;
+      min-height: 44px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
     /* 👉 여기에 제가 알려드린 .account-row CSS 포함 */
     .account-row {
       display: flex !important;
@@ -1282,6 +1374,90 @@
     }
   </script>
   
+
+  <!-- 모바일 최적화 JavaScript 추가 -->
+  <script>
+  // 모바일 터치 이벤트 최적화
+  document.addEventListener('DOMContentLoaded', function() {
+    // 터치 이벤트 최적화
+    let touchStartY = 0;
+    let touchEndY = 0;
+    
+    document.addEventListener('touchstart', function(e) {
+      touchStartY = e.touches[0].clientY;
+    }, { passive: true });
+    
+    document.addEventListener('touchend', function(e) {
+      touchEndY = e.changedTouches[0].clientY;
+    }, { passive: true });
+    
+    // 모바일에서 더블탭 줌 방지
+    let lastTouchEnd = 0;
+    document.addEventListener('touchend', function(event) {
+      const now = (new Date()).getTime();
+      if (now - lastTouchEnd <= 300) {
+        event.preventDefault();
+      }
+      lastTouchEnd = now;
+    }, false);
+    
+    // 모바일 스크롤 성능 최적화
+    document.addEventListener('scroll', function() {
+      // 스크롤 이벤트 최적화
+    }, { passive: true });
+  });
+
+  // 모바일 복사 기능 개선
+  function copyAccount(accountNumber) {
+    // 모바일에서 복사 성공률 향상
+    if (navigator.clipboard && window.isSecureContext) {
+      navigator.clipboard.writeText(accountNumber).then(() => {
+        showMobileToast('계좌번호가 복사되었습니다!');
+      }).catch(() => {
+        fallbackCopy(accountNumber);
+      });
+    } else {
+      fallbackCopy(accountNumber);
+    }
+  }
+
+  // 모바일 토스트 메시지
+  function showMobileToast(message) {
+    const toast = document.createElement('div');
+    toast.textContent = message;
+    toast.style.cssText = `
+      position: fixed;
+      bottom: 20px;
+      left: 50%;
+      transform: translateX(-50%);
+      background: #333;
+      color: white;
+      padding: 12px 20px;
+      border-radius: 25px;
+      z-index: 10000;
+      font-size: 14px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+      animation: slideUp 0.3s ease;
+    `;
+    
+    // 모바일 애니메이션
+    const style = document.createElement('style');
+    style.textContent = `
+      @keyframes slideUp {
+        from { transform: translateX(-50%) translateY(100%); opacity: 0; }
+        to { transform: translateX(-50%) translateY(0); opacity: 1; }
+      }
+    `;
+    document.head.appendChild(style);
+    
+    document.body.appendChild(toast);
+    
+    setTimeout(() => {
+      document.body.removeChild(toast);
+    }, 2000);
+  }
+  </script>
+
 
   <!-- 모달 오버레이 추가 (body 태그 안, container div 밖에) -->
   <div class="modal-overlay" id="modalOverlay">
