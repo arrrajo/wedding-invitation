@@ -98,14 +98,95 @@
       justify-content: center;
     }
 
-    /* 👉 여기에 제가 알려드린 .account-row CSS 포함 */
+
+    /* 계좌번호 모바일 최적화 강화 */
     .account-row {
       display: flex !important;
-      align-items: center;
-      padding: 0.75rem 1.25rem;
-      border-bottom: 1px solid #f0f0f0;
-      font-size: 0.95rem;
+      align-items: center !important;
+      justify-content: space-between !important;
+      gap: 0.5rem !important;
+      margin-bottom: 0.75rem !important;
+      padding: 0.75rem !important;
+      background: #f8f9fa !important;
+      border-radius: 0.5rem !important;
+      border: 1px solid #e9ecef !important;
+      flex-wrap: nowrap !important;
+      overflow: hidden !important;
     }
+
+    .account-row .bank {
+      font-weight: bold !important;
+      color: #495057 !important;
+      min-width: 4rem !important;
+      text-align: center !important;
+      flex-shrink: 0 !important;
+    }
+
+    .account-row .account-number {
+      font-family: 'Courier New', monospace !important;
+      font-weight: bold !important;
+      color: #212529 !important;
+      white-space: nowrap !important;
+      overflow: hidden !important;
+      text-overflow: ellipsis !important;
+      flex: 1 !important;
+      text-align: center !important;
+      word-break: keep-all !important;
+      display: inline-block !important;
+      max-width: 100% !important;
+    }
+
+    .account-row .account-holder {
+      font-weight: 500 !important;
+      color: #6c757d !important;
+      min-width: 3rem !important;
+      text-align: center !important;
+      flex-shrink: 0 !important;
+    }
+
+    .account-row .btn-action {
+      background: #007bff !important;
+      color: white !important;
+      border: none !important;
+      border-radius: 0.25rem !important;
+      padding: 0.25rem 0.5rem !important;
+      cursor: pointer !important;
+      display: flex !important;
+      align-items: center !important;
+      justify-content: center !important;
+      min-width: 2rem !important;
+      height: 2rem !important;
+      flex-shrink: 0 !important;
+    }
+
+    .account-row .btn-action:hover {
+      background: #0056b3 !important;
+    }
+
+    /* 모바일 반응형 강화 */
+    @media (max-width: 768px) {
+      .account-row {
+        flex-direction: row !important;
+        gap: 0.25rem !important;
+        text-align: center !important;
+        padding: 0.5rem !important;
+      }
+      
+      .account-row .account-number {
+        font-size: 1rem !important;
+        letter-spacing: 0.1rem !important;
+        white-space: nowrap !important;
+        overflow: hidden !important;
+        text-overflow: ellipsis !important;
+        word-break: keep-all !important;
+      }
+      
+      .account-row .bank,
+      .account-row .account-holder {
+        font-size: 0.85rem !important;
+      }
+    }
+
 
     /* 공통 스타일 */
     body {
@@ -735,13 +816,96 @@
       padding: 0.5rem 0;
     }
 
+
     .account-row {
-      display: flex;
-      align-items: center;
-      padding: 0.75rem 1.25rem;
-      border-bottom: 1px solid #f0f0f0;
-      font-size: 0.95rem;
+      display: flex !important;
+      align-items: center !important;
+      justify-content: space-between !important;
+      gap: 0.5rem !important;
+      margin-bottom: 0.75rem !important;
+      padding: 0.75rem !important;
+      background: #f8f9fa !important;
+      border-radius: 0.5rem !important;
+      border: 1px solid #e9ecef !important;
+      flex-wrap: nowrap !important;
+      overflow: hidden !important;
+      font-size: 0.95rem !important;
     }
+
+
+    .account-row .bank {
+      font-weight: bold !important;
+      color: #495057 !important;
+      min-width: 4rem !important;
+      text-align: center !important;
+      flex-shrink: 0 !important;
+    }
+
+    .account-row .account-number {
+      font-family: 'Courier New', monospace !important;
+      font-weight: bold !important;
+      color: #212529 !important;
+      white-space: nowrap !important;
+      overflow: hidden !important;
+      text-overflow: ellipsis !important;
+      flex: 1 !important;
+      text-align: center !important;
+      word-break: keep-all !important;
+      display: inline-block !important;
+      max-width: 100% !important;
+    }
+
+    .account-row .account-holder {
+      font-weight: 500 !important;
+      color: #6c757d !important;
+      min-width: 3rem !important;
+      text-align: center !important;
+      flex-shrink: 0 !important;
+    }
+
+    .account-row .btn-action {
+      background: #007bff !important;
+      color: white !important;
+      border: none !important;
+      border-radius: 0.25rem !important;
+      padding: 0.25rem 0.5rem !important;
+      cursor: pointer !important;
+      display: flex !important;
+      align-items: center !important;
+      justify-content: center !important;
+      min-width: 2rem !important;
+      height: 2rem !important;
+      flex-shrink: 0 !important;
+    }
+
+    .account-row .btn-action:hover {
+      background: #0056b3 !important;
+    }
+
+    /* 모바일 반응형 강화 */
+    @media (max-width: 768px) {
+      .account-row {
+        flex-direction: row !important;
+        gap: 0.25rem !important;
+        text-align: center !important;
+        padding: 0.5rem !important;
+      }
+      
+      .account-row .account-number {
+        font-size: 1rem !important;
+        letter-spacing: 0.1rem !important;
+        white-space: nowrap !important;
+        overflow: hidden !important;
+        text-overflow: ellipsis !important;
+        word-break: keep-all !important;
+      }
+      
+      .account-row .bank,
+      .account-row .account-holder {
+        font-size: 0.85rem !important;
+      }
+    }
+
 
     .account-row:last-child {
       border-bottom: none;
@@ -888,14 +1052,95 @@
         opacity: 1;
       }
 
-      /* 개별 행 (표의 한 줄) */
+
+      /* 계좌번호 모바일 최적화 강화 */
       .account-row {
-        display: flex;
-        align-items: center;
-        padding: 0.75rem 1.25rem;
-        border-bottom: 1px solid #f0f0f0;
-        font-size: 0.95rem;
+        display: flex !important;
+        align-items: center !important;
+        justify-content: space-between !important;
+        gap: 0.5rem !important;
+        margin-bottom: 0.75rem !important;
+        padding: 0.75rem !important;
+        background: #f8f9fa !important;
+        border-radius: 0.5rem !important;
+        border: 1px solid #e9ecef !important;
+        flex-wrap: nowrap !important;
+        overflow: hidden !important;
       }
+
+      .account-row .bank {
+        font-weight: bold !important;
+        color: #495057 !important;
+        min-width: 4rem !important;
+        text-align: center !important;
+        flex-shrink: 0 !important;
+      }
+
+      .account-row .account-number {
+        font-family: 'Courier New', monospace !important;
+        font-weight: bold !important;
+        color: #212529 !important;
+        white-space: nowrap !important;
+        overflow: hidden !important;
+        text-overflow: ellipsis !important;
+        flex: 1 !important;
+        text-align: center !important;
+        word-break: keep-all !important;
+        display: inline-block !important;
+        max-width: 100% !important;
+      }
+
+      .account-row .account-holder {
+        font-weight: 500 !important;
+        color: #6c757d !important;
+        min-width: 3rem !important;
+        text-align: center !important;
+        flex-shrink: 0 !important;
+      }
+
+      .account-row .btn-action {
+        background: #007bff !important;
+        color: white !important;
+        border: none !important;
+        border-radius: 0.25rem !important;
+        padding: 0.25rem 0.5rem !important;
+        cursor: pointer !important;
+        display: flex !important;
+        align-items: center !important;
+        justify-content: center !important;
+        min-width: 2rem !important;
+        height: 2rem !important;
+        flex-shrink: 0 !important;
+      }
+
+      .account-row .btn-action:hover {
+        background: #0056b3 !important;
+      }
+
+      /* 모바일 반응형 강화 */
+      @media (max-width: 768px) {
+        .account-row {
+          flex-direction: row !important;
+          gap: 0.25rem !important;
+          text-align: center !important;
+          padding: 0.5rem !important;
+        }
+        
+        .account-row .account-number {
+          font-size: 1rem !important;
+          letter-spacing: 0.1rem !important;
+          white-space: nowrap !important;
+          overflow: hidden !important;
+          text-overflow: ellipsis !important;
+          word-break: keep-all !important;
+        }
+        
+        .account-row .bank,
+        .account-row .account-holder {
+          font-size: 0.85rem !important;
+        }
+      }
+
 
       .account-row:last-child {
         border-bottom: none;
