@@ -105,13 +105,13 @@
       align-items: center !important;
       gap: 0.5rem !important;
       margin-bottom: 0.75rem !important;
-      padding: 0.75rem 1.5rem !important;
+      padding: 0.75rem 1.25rem !important;
       background: #f8f9fa !important;
       border-radius: 0.5rem !important;
       border: 1px solid #e9ecef !important;
       font-size: 0.95rem !important;
       min-height: 3.5rem !important;
-      max-width: 28rem !important;
+      max-width: 26rem !important;
       margin-left: auto !important;
       margin-right: auto !important;
     }
@@ -128,12 +128,14 @@
       font-family: 'Courier New', monospace !important;
       font-weight: bold !important;
       color: #212529 !important;
-      white-space: nowrap !important;
+      white-space: normal !important;
       text-align: center !important;
-      word-break: keep-all !important;
-      overflow: hidden !important;
-      text-overflow: ellipsis !important;
+      word-break: break-all !important;
+      overflow: visible !important;
+      text-overflow: unset !important;
       grid-column: 2 !important;
+      line-height: 1.2 !important;
+      min-height: 1.2em !important;
     }
 
     .account-row .account-holder {
@@ -198,6 +200,11 @@
         min-width: 6rem !important;
         max-width: 8rem !important;
         flex: 1 !important;
+        white-space: normal !important;
+        word-break: break-all !important;
+        overflow: visible !important;
+        text-overflow: unset !important;
+        line-height: 1.2 !important;
       }
       
       .account-row .account-holder {
@@ -241,6 +248,11 @@
         min-width: 5rem !important;
         max-width: 7rem !important;
         flex: 1 !important;
+        white-space: normal !important;
+        word-break: break-all !important;
+        overflow: visible !important;
+        text-overflow: unset !important;
+        line-height: 1.2 !important;
       }
       
       .account-row .account-holder {
@@ -1262,9 +1274,9 @@
           <div class="text gothic" id="groom-content" style="height: 0; opacity: 0;">
             <div class="account-row">
               <span class="bank">농협</span>
-              <span class="account-number">123-123456-123</span>
+              <span class="account-number">123-456789-123</span>
               <span class="account-holder">공희열</span>
-              <div class="btn-action" onclick="copyAccount('123-123456-123')">
+              <div class="btn-action" onclick="copyAccount('123-456789-123')">
                 <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                   <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
                   <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
