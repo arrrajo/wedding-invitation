@@ -91,7 +91,6 @@
 
     /* 모바일 복사 버튼 터치 영역 확대 */
     .account-row .btn-action {
-      flex-shrink: 0; /* 버튼은 줄어들지 않도록 */
       padding: 0.5rem 0.75rem;
       min-height: 44px;
       display: flex;
@@ -99,29 +98,30 @@
       justify-content: center;
     }
 
-
-    /* 계좌번호 모바일 최적화 강화 */
+    /* 계좌번호 행 스타일 - PC 고정 레이아웃 */
     .account-row {
-      display: flex !important;
+      display: grid !important;
+      grid-template-columns: 4rem 1fr 3.5rem 3rem !important;
       align-items: center !important;
-      justify-content: space-between !important;
       gap: 0.5rem !important;
       margin-bottom: 0.75rem !important;
-      padding: 1rem 1.25rem !important;
-      min-height: 3.5rem !important;  /* 새로 추가 */
+      padding: 0.75rem 1.5rem !important;
       background: #f8f9fa !important;
       border-radius: 0.5rem !important;
       border: 1px solid #e9ecef !important;
-      flex-wrap: wrap !important;
-      overflow: hidden !important;
+      font-size: 0.95rem !important;
+      min-height: 3.5rem !important;
+      max-width: 28rem !important;
+      margin-left: auto !important;
+      margin-right: auto !important;
     }
 
     .account-row .bank {
       font-weight: bold !important;
       color: #495057 !important;
-      min-width: 4rem !important;
       text-align: center !important;
-      flex-shrink: 0 !important;
+      font-size: 0.9rem !important;
+      grid-column: 1 !important;
     }
 
     .account-row .account-number {
@@ -129,20 +129,23 @@
       font-weight: bold !important;
       color: #212529 !important;
       white-space: nowrap !important;
-      flex: 1 !important;
       text-align: center !important;
-      word-break: break-all !important;
-      display: inline-block !important;
-      min-width: 0 !important;
+      word-break: keep-all !important;
+      overflow: hidden !important;
+      text-overflow: ellipsis !important;
+      grid-column: 2 !important;
     }
 
     .account-row .account-holder {
       font-weight: 500 !important;
       color: #6c757d !important;
-      min-width: 3rem !important;
       text-align: center !important;
-      flex-shrink: 0 !important;
-      white-space: nowrap; /* 이름은 줄바꿈 없이 한 줄 */
+      font-size: 0.9rem !important;
+      grid-column: 3 !important;
+    }
+
+    .account-row .btn-action {
+      grid-column: 4 !important;
     }
 
     .account-row .btn-action {
@@ -150,35 +153,109 @@
       color: white !important;
       border: none !important;
       border-radius: 0.25rem !important;
-      padding: 0.25rem 0.5rem !important;
+      padding: 0.5rem 0.75rem !important;
       cursor: pointer !important;
       display: flex !important;
       align-items: center !important;
       justify-content: center !important;
-      min-width: 2rem !important;
-      height: 2rem !important;
+      min-width: 3rem !important;
+      min-height: 2.5rem !important;
       flex-shrink: 0 !important;
+      font-size: 0.8rem !important;
+      gap: 0.25rem !important;
     }
 
     .account-row .btn-action:hover {
       background: #0056b3 !important;
     }
 
+    .account-row .btn-action svg {
+      width: 14px !important;
+      height: 14px !important;
+    }
+
     /* 모바일 반응형 강화 */
     @media (max-width: 768px) {
-      .account-row .account-number {
-        font-size: 1rem !important;
-        letter-spacing: 0.1rem !important;
-        white-space: nowrap !important;
-        word-break: break-all !important;
+      .account-row {
+        display: flex !important;
+        flex-direction: row !important;
+        gap: 0.25rem !important;
+        padding: 0.75rem !important;
+        min-height: 3.5rem !important;
+        justify-content: space-between !important;
       }
       
-      .account-row .bank,
+      .account-row .bank {
+        min-width: 2.5rem !important;
+        max-width: 3rem !important;
+        font-size: 0.8rem !important;
+        flex-shrink: 0 !important;
+      }
+      
+      .account-row .account-number {
+        font-size: 0.9rem !important;
+        letter-spacing: 0.05rem !important;
+        min-width: 6rem !important;
+        max-width: 8rem !important;
+        flex: 1 !important;
+      }
+      
       .account-row .account-holder {
-        font-size: 0.85rem !important;
+        min-width: 2rem !important;
+        max-width: 2.5rem !important;
+        font-size: 0.8rem !important;
+        flex-shrink: 0 !important;
+      }
+
+      .account-row .btn-action {
+        min-width: 2.5rem !important;
+        min-height: 2.25rem !important;
+        padding: 0.375rem 0.5rem !important;
+        font-size: 0.75rem !important;
+        flex-shrink: 0 !important;
+      }
+
+      .account-row .btn-action svg {
+        width: 12px !important;
+        height: 12px !important;
       }
     }
 
+    /* 초소형 모바일 대응 */
+    @media (max-width: 480px) {
+      .account-row {
+        display: flex !important;
+        flex-wrap: wrap !important;
+        gap: 0.5rem !important;
+        padding: 1rem 0.75rem !important;
+      }
+      
+      .account-row .bank {
+        min-width: 2rem !important;
+        font-size: 0.75rem !important;
+        flex-shrink: 0 !important;
+      }
+      
+      .account-row .account-number {
+        font-size: 0.85rem !important;
+        min-width: 5rem !important;
+        max-width: 7rem !important;
+        flex: 1 !important;
+      }
+      
+      .account-row .account-holder {
+        min-width: 1.5rem !important;
+        font-size: 0.75rem !important;
+        flex-shrink: 0 !important;
+      }
+
+      .account-row .btn-action {
+        min-width: 2rem !important;
+        min-height: 2rem !important;
+        font-size: 0.7rem !important;
+        flex-shrink: 0 !important;
+      }
+    }
 
     /* 공통 스타일 */
     body {
@@ -808,145 +885,7 @@
       padding: 0.5rem 0;
     }
 
-
-    .account-row {
-      display: flex !important;
-      align-items: center !important;
-      justify-content: space-between !important;
-      gap: 0.5rem !important;
-      margin-bottom: 0.75rem !important;
-      padding: 1rem 1.25rem !important;
-      min-height: 3.5rem !important;  /* 새로 추가 */
-      background: #f8f9fa !important;
-      border-radius: 0.5rem !important;
-      border: 1px solid #e9ecef !important;
-      flex-wrap: wrap !important;
-      overflow: hidden !important;
-      font-size: 0.95rem !important;
-    }
-
-
-    .account-row .bank {
-      font-weight: bold !important;
-      color: #495057 !important;
-      min-width: 4rem !important;
-      text-align: center !important;
-      flex-shrink: 0 !important;
-    }
-
-    .account-row .account-number {
-      font-family: 'Courier New', monospace !important;
-      font-weight: bold !important;
-      color: #212529 !important;
-      white-space: nowrap !important;
-      flex: 1 !important;
-      text-align: center !important;
-      word-break: break-all !important;
-      display: inline-block !important;
-      min-width: 0 !important;
-    }
-
-    .account-row .account-holder {
-      font-weight: 500 !important;
-      color: #6c757d !important;
-      min-width: 3rem !important;
-      text-align: center !important;
-      flex-shrink: 0 !important;
-      white-space: nowrap; /* 이름은 줄바꿈 없이 한 줄 */
-    }
-
-    .account-row .btn-action {
-      background: #007bff !important;
-      color: white !important;
-      border: none !important;
-      border-radius: 0.25rem !important;
-      padding: 0.25rem 0.5rem !important;
-      cursor: pointer !important;
-      display: flex !important;
-      align-items: center !important;
-      justify-content: center !important;
-      min-width: 2rem !important;
-      height: 2rem !important;
-      flex-shrink: 0 !important;
-    }
-
-    .account-row .btn-action:hover {
-      background: #0056b3 !important;
-    }
-
-    /* 모바일 반응형 강화 */
-    @media (max-width: 768px) {
-      .account-row {
-        flex-direction: row !important;
-        gap: 0.25rem !important;
-        text-align: center !important;
-        padding: 0.75rem 1.25rem !important;  /* 모바일: 0.5rem → 0.75rem */
-        min-height: 3rem !important;  /* 새로 추가 */
-      }
-      
-      .account-row .account-number {
-        font-size: 1rem !important;
-        letter-spacing: 0.1rem !important;
-        white-space: nowrap !important;
-        word-break: break-all !important;
-      }
-      
-      .account-row .bank,
-      .account-row .account-holder {
-        font-size: 0.85rem !important;
-      }
-    }
-
-
-    .account-row:last-child {
-      border-bottom: none;
-    }
-
-    .account-row .bank {
-      font-weight: 600;
-      width: 6rem;
-      flex-shrink: 0;
-    }
-
-    .account-row .separator {
-      margin: 0 0.5rem;
-      color: #ccc;
-    }
-
-    .account-row .account-number {
-      flex: 1;                 /* 가운데 공간 넓게 차지 */
-      font-family: 'Courier New', monospace !important;
-      color: #1976d2 !important;
-      margin-right: 0.5rem !important;
-      white-space: nowrap !important;
-      word-break: break-all !important;
-    }
-
-    .account-row .account-holder {
-      width: 6rem;
-      text-align: right;
-      color: #666;
-      flex-shrink: 0;
-      white-space: nowrap; /* 이름은 줄바꿈 없이 한 줄 */
-    }
-
-    .account-row .btn-action {
-      display: flex;
-      align-items: center;
-      gap: 0.25rem;
-      padding: 0.25rem 0.5rem;
-      background: #f0f0f0;
-      border-radius: 0.25rem;
-      cursor: pointer;
-      font-size: 0.8rem;
-      margin-left: 0.5rem;
-      flex-shrink: 0;
-      transition: background-color 0.2s ease;
-    }
-
-    .account-row .btn-action:hover {
-      background: #e0e0e0;
-    }    
+    
 
     /* 다크 모드 대응 */
     @media (prefers-color-scheme: dark) {
@@ -1047,148 +986,6 @@
       }
 
 
-      /* 계좌번호 모바일 최적화 강화 */
-      .account-row {
-        display: flex !important;
-        align-items: center !important;
-        justify-content: space-between !important;
-        gap: 0.5rem !important;
-        margin-bottom: 0.75rem !important;
-        padding: 1rem 1.25rem !important;
-        min-height: 3.5rem !important;  /* 새로 추가 */
-        background: #f8f9fa !important;
-        border-radius: 0.5rem !important;
-        border: 1px solid #e9ecef !important;
-        flex-wrap: wrap !important;
-        overflow: hidden !important;
-      }
-
-      .account-row .bank {
-        font-weight: bold !important;
-        color: #495057 !important;
-        min-width: 4rem !important;
-        text-align: center !important;
-        flex-shrink: 0 !important;
-      }
-
-      .account-row .account-number {
-        font-family: 'Courier New', monospace !important;
-        font-weight: bold !important;
-        color: #212529 !important;
-        white-space: nowrap !important;
-        flex: 1 !important;
-        text-align: center !important;
-        word-break: break-all !important;
-        display: inline-block !important;
-        min-width: 0 !important;
-      }
-
-      .account-row .account-holder {
-        font-weight: 500 !important;
-        color: #6c757d !important;
-        min-width: 3rem !important;
-        text-align: center !important;
-        flex-shrink: 0 !important;
-        white-space: nowrap; /* 이름은 줄바꿈 없이 한 줄 */
-      }
-
-      .account-row .btn-action {
-        background: #007bff !important;
-        color: white !important;
-        border: none !important;
-        border-radius: 0.25rem !important;
-        padding: 0.25rem 0.5rem !important;
-        cursor: pointer !important;
-        display: flex !important;
-        align-items: center !important;
-        justify-content: center !important;
-        min-width: 2rem !important;
-        height: 2rem !important;
-        flex-shrink: 0 !important;
-      }
-
-      .account-row .btn-action:hover {
-        background: #0056b3 !important;
-      }
-
-      /* 모바일 반응형 강화 */
-      @media (max-width: 768px) {
-        .account-row {
-          flex-direction: row !important;
-          gap: 0.25rem !important;
-          text-align: center !important;
-          padding: 0.75rem 1.25rem !important;  /* 모바일: 0.5rem → 0.75rem */
-          min-height: 3rem !important;  /* 새로 추가 */
-        }
-        
-        .account-row .account-number {
-          font-size: 1rem !important;
-          letter-spacing: 0.1rem !important;
-          white-space: nowrap !important;
-          word-break: break-all !important;
-        }
-        
-        .account-row .bank,
-        .account-row .account-holder {
-          font-size: 0.85rem !important;
-        }
-      }
-
-
-      .account-row:last-child {
-        border-bottom: none;
-      }
-
-      /* 은행명 */
-      .account-row .bank {
-        font-weight: 600;
-        width: 6rem;         /* 열 고정 */
-        flex-shrink: 0;
-      }
-
-      /* 구분자 (|) */
-      .account-row .separator {
-        margin: 0 0.5rem;
-        color: #ccc;
-      }
-
-      /* 계좌번호 */
-      .account-row .account-number {
-        flex: 1;                 /* 가운데 공간 넓게 차지 */
-        font-family: 'Courier New', monospace !important;
-        color: #1976d2 !important;
-        margin-right: 0.5rem !important;
-        white-space: nowrap !important;
-        word-break: break-all !important;
-      }
-
-      /* 예금주 */
-      .account-row .account-holder {
-        width: 6rem;             /* 오른쪽 고정 폭 */
-        text-align: right;
-        color: #666;
-        flex-shrink: 0;
-        white-space: nowrap; /* 이름은 줄바꿈 없이 한 줄 */
-      }
-
-      /* 복사 버튼 */
-      .account-row .btn-action {
-        display: flex;
-        align-items: center;
-        gap: 0.25rem;
-        padding: 0.25rem 0.5rem;
-        background: #f0f0f0;
-        border-radius: 0.25rem;
-        cursor: pointer;
-        font-size: 0.8rem;
-        margin-left: 0.5rem;
-        flex-shrink: 0;
-        transition: background-color 0.2s ease;
-      }
-
-      .account-row .btn-action:hover {
-        background: #e0e0e0;
-      }
     }
   </style>
 </head>
@@ -1430,8 +1227,10 @@
         <p>
           주차장은 삼성힐타워 아파트 지하 1층 주차장 이용 가능합니다.<br><br>
           무료 주차권 제공 예정이니 현장 문의 부탁드립니다.<br><br>
-          주차 공간이 협소할 수 있어, 원활한 주차를 위해 여유 있게 도착해 주시면 감사하겠습니다.<br><br>
-          전세 버스는 경남 창녕군 관조할인마트 앞에서 오전 11시 30분에 출발합니다.
+          주차 공간이 협소할 수 있어, 원활한 주차를 위해<br>
+          여유 있게 도착해 주시면 감사하겠습니다.<br><br>
+          전세 버스는 경남 창녕군 관조할인마트 앞에서<br>
+          오전 11시 30분에 출발합니다.
         </p>
       </div>
 
@@ -1463,10 +1262,9 @@
           <div class="text gothic" id="groom-content" style="height: 0; opacity: 0;">
             <div class="account-row">
               <span class="bank">농협</span>
-              <span class="separator">|</span>
-              <span class="account-number">123-123-123</span>
+              <span class="account-number">123-123456-123</span>
               <span class="account-holder">공희열</span>
-              <div class="btn-action" onclick="copyAccount('123-123-123')">
+              <div class="btn-action" onclick="copyAccount('123-123456-123')">
                 <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                   <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
                   <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
@@ -1476,10 +1274,9 @@
             </div>
             <div class="account-row">
               <span class="bank">농협</span>
-              <span class="separator">|</span>
-              <span class="account-number">123-123-123</span>
+              <span class="account-number">123-123-789789789</span>
               <span class="account-holder">박미애</span>
-              <div class="btn-action" onclick="copyAccount('123-123-123')">
+              <div class="btn-action" onclick="copyAccount('123-123-789789789')">
                 <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                   <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
                   <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
@@ -1489,7 +1286,6 @@
             </div>
             <div class="account-row">
               <span class="bank">신한은행</span>
-              <span class="separator">|</span>
               <span class="account-number">123-123-123</span>
               <span class="account-holder">공선호</span>
               <div class="btn-action" onclick="copyAccount('123-123-123')">
@@ -1518,7 +1314,6 @@
           <div class="text gothic" id="bride-content" style="height: 0; opacity: 0;">
             <div class="account-row">
               <span class="bank">신한은행</span>
-              <span class="separator">|</span>
               <span class="account-number">123-123-123</span>
               <span class="account-holder">조수만</span>
               <div class="btn-action" onclick="copyAccount('123-123-123')">
@@ -1531,7 +1326,6 @@
             </div>
             <div class="account-row">
               <span class="bank">농협</span>
-              <span class="separator">|</span>
               <span class="account-number">123-123-123</span>
               <span class="account-holder">김영옥</span>
               <div class="btn-action" onclick="copyAccount('123-123-123')">
@@ -1544,7 +1338,6 @@
             </div>
             <div class="account-row">
               <span class="bank">우리은행</span>
-              <span class="separator">|</span>
               <span class="account-number">123-123-123</span>
               <span class="account-holder">조아라</span>
               <div class="btn-action" onclick="copyAccount('123-123-123')">
