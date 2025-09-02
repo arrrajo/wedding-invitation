@@ -2,7 +2,7 @@
 <html lang="ko">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
   
   <!-- 모바일 최적화 메타 태그들 추가 -->
@@ -24,6 +24,12 @@
   <link rel="stylesheet" as="style" crossorigin href="https://fonts.googleapis.com/css2?family=Noto+Serif+KR:wght@400;500;600;700&display=swap" />
 
   <style>
+    /* ✅ 여기 맨 위쪽에 넣으면 전역으로 적용됨 */
+    html, body {
+      -webkit-text-size-adjust: 100%;
+      text-size-adjust: 100%;
+    }
+
     /* 모바일 최적화 CSS - 맨 앞에 추가 */
     * {
       -webkit-tap-highlight-color: transparent;
