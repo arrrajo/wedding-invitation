@@ -1,0 +1,1566 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  
+  <!-- 모바일 최적화 메타 태그들 추가 -->
+  <meta name="format-detection" content="telephone=no" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="default" />
+  <meta name="apple-mobile-web-app-title" content="공선호♥조아라 청첩장" />
+  <meta name="mobile-web-app-capable" content="yes" />
+  <meta name="theme-color" content="#ffffff" />
+  <meta name="msapplication-TileColor" content="#ffffff" />
+  
+  <!-- PWA 아이콘 -->
+  <link rel="icon" type="image/png" sizes="32x32" href="images/favicon-32x32.png" />
+  <link rel="icon" type="image/png" sizes="16x16" href="images/favicon-16x16.png" />
+  <link rel="apple-touch-icon" sizes="180x180" href="images/apple-touch-icon.png" />
+  <link rel="manifest" href="manifest.json" />
+  
+  <title>모바일 청첩장</title>
+  <link rel="stylesheet" as="style" crossorigin href="https://fonts.googleapis.com/css2?family=Noto+Serif+KR:wght@400;500;600;700&display=swap" />
+
+  <style>
+    /* ✅ 여기 맨 위쪽에 넣으면 전역으로 적용됨 */
+    html, body {
+      -webkit-text-size-adjust: 100%;
+      text-size-adjust: 100%;
+    }
+
+    /* 모바일 최적화 CSS - 맨 앞에 추가 */
+    * {
+      -webkit-tap-highlight-color: transparent;
+      -webkit-touch-callout: none;
+      -webkit-user-select: none;
+      -khtml-user-select: none;
+      -moz-user-select: none;
+      -ms-user-select: none;
+      user-select: none;
+    }
+
+    /* 텍스트 선택 허용 (계좌번호 등) */
+    .account-number, .btn-action {
+      -webkit-user-select: text;
+      -moz-user-select: text;
+      -ms-user-select: text;
+      user-select: text;
+    }
+
+    /* 모바일 터치 영역 최적화 */
+    .btn-rsvp, .btn-action, .c-account .title {
+      min-height: 44px;
+      min-width: 44px;
+    }
+
+    /* 모바일 스크롤 최적화 */
+    body {
+      -webkit-overflow-scrolling: touch;
+      overflow-scrolling: touch;
+    }
+
+    /* 모바일 폰트 렌더링 최적화 */
+    body {
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+      text-rendering: optimizeLegibility;
+    }
+
+    /* 모바일 이미지 최적화 */
+    img {
+      max-width: 100%;
+      height: auto;
+      -webkit-user-drag: none;
+      -khtml-user-drag: none;
+      -moz-user-drag: none;
+      -o-user-drag: none;
+      user-drag: none;
+    }
+
+    /* 모바일 버튼 터치 피드백 */
+    .btn-rsvp:active, .btn-action:active, .c-account .title:active {
+      transform: scale(0.98);
+      transition: transform 0.1s ease;
+    }
+
+    /* 모바일 모달 최적화 */
+    .modal-overlay {
+      -webkit-overflow-scrolling: touch;
+      overflow-scrolling: touch;
+    }
+
+    /* 모바일 갤러리 터치 최적화 */
+    .gallery-grid img {
+      touch-action: manipulation;
+    }
+
+    /* 모바일 복사 버튼 터치 영역 확대 */
+    .account-row .btn-action {
+      padding: 0.5rem 0.75rem;
+      min-height: 44px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    /* 계좌번호 행 스타일 - PC 고정 레이아웃 */
+    .account-row {
+      display: grid !important;
+      grid-template-columns: 4rem 1fr 3.5rem 3rem !important;
+      align-items: center !important;
+      gap: 0.5rem !important;
+      margin-bottom: 0.75rem !important;
+      padding: 0.75rem 1.25rem !important;
+      background: #f8f9fa !important;
+      border-radius: 0.5rem !important;
+      border: 1px solid #e9ecef !important;
+      font-size: 0.95rem !important;
+      min-height: 3.5rem !important;
+      max-width: 26rem !important;
+      margin-left: auto !important;
+      margin-right: auto !important;
+    }
+
+    .account-row .bank {
+      font-weight: bold !important;
+      color: #495057 !important;
+      text-align: center !important;
+      font-size: 0.9rem !important;
+      grid-column: 1 !important;
+    }
+
+    .account-row .account-number {
+      font-family: 'Courier New', monospace !important;
+      font-weight: bold !important;
+      color: #212529 !important;
+      white-space: normal !important;
+      text-align: center !important;
+      word-break: break-all !important;
+      overflow: visible !important;
+      text-overflow: unset !important;
+      grid-column: 2 !important;
+      line-height: 1.2 !important;
+      min-height: 1.2em !important;
+    }
+
+    .account-row .account-holder {
+      font-weight: 500 !important;
+      color: #6c757d !important;
+      text-align: center !important;
+      font-size: 0.9rem !important;
+      grid-column: 3 !important;
+    }
+
+    .account-row .btn-action {
+      grid-column: 4 !important;
+    }
+
+    .account-row .btn-action {
+      background: #007bff !important;
+      color: white !important;
+      border: none !important;
+      border-radius: 0.25rem !important;
+      padding: 0.375rem 0.5rem !important;
+      cursor: pointer !important;
+      display: flex !important;
+      align-items: center !important;
+      justify-content: center !important;
+      min-width: 2.5rem !important;
+      min-height: 2rem !important;
+      flex-shrink: 0 !important;
+      font-size: 0.75rem !important;
+      gap: 0.2rem !important;
+    }
+
+    .account-row .btn-action:hover {
+      background: #0056b3 !important;
+    }
+
+    .account-row .btn-action svg {
+      width: 14px !important;
+      height: 14px !important;
+    }
+
+    /* 모바일 반응형 강화 */
+    @media (max-width: 768px) {
+      .account-row {
+        display: flex !important;
+        flex-direction: row !important;
+        gap: 0.25rem !important;
+        padding: 0.75rem !important;
+        min-height: 3.5rem !important;
+        justify-content: space-between !important;
+      }
+      
+      .account-row .bank {
+        min-width: 2.5rem !important;
+        max-width: 3rem !important;
+        font-size: 0.8rem !important;
+        flex-shrink: 0 !important;
+      }
+      
+      .account-row .account-number {
+        font-size: 0.9rem !important;
+        letter-spacing: 0.05rem !important;
+        min-width: 6rem !important;
+        max-width: 8rem !important;
+        flex: 1 !important;
+        white-space: normal !important;
+        word-break: break-all !important;
+        overflow: visible !important;
+        text-overflow: unset !important;
+        line-height: 1.2 !important;
+      }
+      
+      .account-row .account-holder {
+        min-width: 2rem !important;
+        max-width: 2.5rem !important;
+        font-size: 0.8rem !important;
+        flex-shrink: 0 !important;
+      }
+
+      .account-row .btn-action {
+        min-width: 2.25rem !important;
+        min-height: 2rem !important;
+        padding: 0.25rem 0.375rem !important;
+        font-size: 0.7rem !important;
+        flex-shrink: 0 !important;
+      }
+
+      .account-row .btn-action svg {
+        width: 12px !important;
+        height: 12px !important;
+      }
+    }
+
+    /* 초소형 모바일 대응 */
+    @media (max-width: 480px) {
+      .account-row {
+        display: flex !important;
+        flex-wrap: wrap !important;
+        gap: 0.5rem !important;
+        padding: 1rem 0.75rem !important;
+      }
+      
+      .account-row .bank {
+        min-width: 2rem !important;
+        font-size: 0.75rem !important;
+        flex-shrink: 0 !important;
+      }
+      
+      .account-row .account-number {
+        font-size: 0.85rem !important;
+        min-width: 5rem !important;
+        max-width: 7rem !important;
+        flex: 1 !important;
+        white-space: normal !important;
+        word-break: break-all !important;
+        overflow: visible !important;
+        text-overflow: unset !important;
+        line-height: 1.2 !important;
+      }
+      
+      .account-row .account-holder {
+        min-width: 1.5rem !important;
+        font-size: 0.75rem !important;
+        flex-shrink: 0 !important;
+      }
+
+      .account-row .btn-action {
+        min-width: 1.75rem !important;
+        min-height: 1.75rem !important;
+        font-size: 0.65rem !important;
+        flex-shrink: 0 !important;
+      }
+    }
+
+    /* 공통 스타일 */
+    body {
+      font-family: 'Noto Serif KR', serif;
+      background: #fafafa;
+      color: #333;
+      padding: 0 0 3.75rem;
+      line-height: 1.6;
+      -webkit-font-smoothing: antialiased;
+      font-weight: 400;
+      margin: 0;
+    }
+
+    h2, h3 {
+      font-weight: 500;
+      font-family: 'Noto Serif KR', serif;
+      margin: 0 0 0.75rem;
+    }
+
+    p {
+      margin: 0.375rem 0;
+    }
+
+    .container {
+      max-width: 30rem;
+      padding: 1.25rem 0.9375rem;
+      background: white;
+      border-radius: 0.75rem;
+      box-shadow: 0 0.125rem 0.625rem rgba(0,0,0,0.08);
+      margin: 0 auto;
+    }
+
+    /* PART 1 */
+    .part1 {
+      text-align: center;
+      padding: 1.875rem 0.9375rem 3.125rem;
+    }
+
+    .part1 .date {
+      font-size: 1.9rem;	/* 2025 11 01 */
+      font-weight: 600;
+      color: #3b2a20;
+      margin-bottom: 0.25rem;
+    }
+
+    .part1 .weekday {
+      font-size: 1.2rem;	/* SATURDAY */
+      color: #9e8e7e;
+      letter-spacing: 0.125rem;
+      margin-bottom: 1.5rem;
+    }
+
+    .part1 img {
+      max-width: 100%;
+      border-radius: 0.75rem;
+      object-fit: cover;
+      margin-bottom: 1.5rem;
+    }
+
+    .part1 .names {
+      font-weight: 600;
+      font-size: 1.4rem;
+      letter-spacing: 0.03125rem;
+      font-family: 'Noto Serif KR', serif;
+      margin-bottom: 0.5rem;
+    }
+
+    .part1 .details {
+      font-size: 1.15rem;
+      color: #666;
+      white-space: pre-line;
+      margin-bottom: 3.5rem;
+    }
+
+    .part1 .invitation-label {
+      font-size: 0.9rem;
+      color: #999;
+      letter-spacing: 0.1875rem;
+      margin-bottom: 0.5rem;
+    }
+
+    .part1 .invitation-text {
+      font-size: 1.3rem;
+      font-weight: 500;
+      font-family: 'Noto Serif KR', serif;
+      margin-bottom: 1.25rem;
+    }
+
+    .part1 .invitation-desc {
+      font-size: 1.1rem;	/* PC 버전 - 더 큰 폰트 */
+      color: #555;
+      white-space: pre-line;
+      line-height: 1;   /* PC 버전 - 더 넓은 줄 간격 */
+      font-family: 'Noto Serif KR', serif;
+      margin-bottom: 1.5rem;
+      text-align: center;   /* PC 버전 - 왼쪽 정렬 */
+      padding: 0 1rem;    /* PC 버전 - 좌우 여백 */
+    }
+
+    /* PART 2 */
+    .part2 {
+      text-align: center;
+      padding: 0;                      /* 패딩 제거 */
+      background: #ffffff;             /* 배경색을 흰색으로 변경 */
+      border-radius: 0;                /* 둥근 테두리 제거 (필요시 유지 가능) */
+      margin: 0 0 2.5rem;
+    }
+
+    .part2 img {
+      max-width: 100%;
+      border-radius: 1rem;             /* 조금 더 부드러운 곡선 추천 */
+      object-fit: cover;
+      margin-bottom: 1rem;
+    }
+
+    .part2 .family-names {
+      font-size: 1.25rem;
+      color: #444;
+      line-height: 1.8;
+      letter-spacing: -0.02em;
+      text-align: center;
+      margin-bottom: 1rem;
+    }
+
+    .part2 .family-names span {
+      display: block; /* 핵심 변경 */
+    }
+
+
+    /* PART 3 */
+    .gallery-section {
+      text-align: center;
+      padding: 2.5rem 1.25rem;
+      background-color: #ffffff;
+    }
+
+    .gallery-header {
+      margin-bottom: 0.5rem;
+    }
+
+    .gallery-label {
+      font-size: 0.9rem;	/* GALLERY */
+      letter-spacing: 0.1875rem;
+      color: #999;
+      text-transform: uppercase;
+      margin: 0;
+      margin-bottom: 0.5rem;
+    }
+
+    .gallery-title {
+      font-size: 1.3rem;	/* 웨딩 갤러리 */
+      color: #333;
+      font-family: 'Noto Serif KR', serif;
+    }
+
+    .gallery-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 0.75rem;
+      max-width: 25rem;
+      margin: 0 auto;
+    }
+
+
+    /* 모달 오버레이 */
+    .modal-overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-color: rgba(0, 0, 0, 0.8);
+      display: none;
+      justify-content: center;
+      align-items: center;
+      z-index: 1000;
+      cursor: pointer;
+    }
+
+    /* 모달 이미지 */
+    .modal-image {
+      max-width: 90%;
+      max-height: 90%;
+      object-fit: contain;
+      border-radius: 0.5rem;
+      box-shadow: 0 0.25rem 1.25rem rgba(0, 0, 0, 0.3);
+    }
+
+    .gallery-grid img {
+      width: 100%;
+      border-radius: 0.625rem;
+      transition: transform 0.3s ease;
+      cursor: pointer;	/* 갤러리 이미지 커서 변경 */
+    }
+
+    .gallery-grid img:hover {
+      transform: scale(1.02);
+    }
+
+    .btn-show-more {
+      margin-top: 1.5rem;
+      padding: 0.625rem 1.25rem;	/* 패딩 줄임 */
+      border: 0.125rem solid #e0e0e0;
+      border-radius: 1.25rem;	 /* 둥근 모서리 줄임 */
+      background: linear-gradient(135deg, #ffffff 0%, #f8f8f8 100%);
+      cursor: pointer;
+      font-size: 1.0rem;	/* 웨딩 갤러리 - 사진 더보기 */
+      font-weight: 500;
+      color: #555;
+      font-family: 'Noto Serif KR', serif;
+      transition: all 0.3s ease;
+      box-shadow: 0 0.125rem 0.5rem rgba(0,0,0,0.08);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .btn-show-more:hover {
+      background: linear-gradient(135deg, #f8f8f8 0%, #f0f0f0 100%);
+      border-color: #d0d0d0;
+      box-shadow: 0 0.25rem 0.75rem rgba(0,0,0,0.12);
+      transform: translateY(-0.0625rem);
+    }
+
+    .btn-show-more:active {
+      transform: translateY(0);
+      box-shadow: 0 0.125rem 0.375rem rgba(0,0,0,0.1);
+    }
+
+    .btn-show-more::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: -100%;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(90deg, transparent, rgba(255,255,255,0.4), transparent);
+      transition: left 0.5s;
+    }
+
+    .btn-show-more:hover::before {
+      left: 100%;
+    }
+
+    .hidden {
+      display: none;
+    }
+
+
+    /* PART 4 */
+    /* part4.css */
+    .part4 {
+      text-align: center;
+      padding: 2.5rem 1.25rem;
+      background-color: #ffffff;
+      font-family: 'Noto Serif KR', serif;
+    }
+
+    .calendar-header {
+      font-size: 1.6rem;
+      font-weight: 600;
+      color: #444;
+      margin-bottom: 0.5rem;
+    }
+
+    .calendar-subheader {
+      font-size: 1.15rem;
+      color: #777;
+      margin-bottom: 1.5rem;
+    }
+
+    .calendar {
+      width: 100%;		/* 달력 */
+      max-width: 22.5rem;
+      border-collapse: collapse;
+      text-align: center;
+      font-size: 1rem;
+      color: #333;
+      margin: 0 auto;
+    }
+
+    .calendar th,
+    .calendar td {
+      border: none;
+      padding: 0.3125rem 0;
+      width: 14.28%;
+      vertical-align: middle;
+    }
+
+    .calendar td.empty {
+      background: none;
+      border: none;
+      padding: 0;
+    }
+
+    .calendar td .day {
+      display: inline-block;
+      width: 2rem;
+      height: 2rem;
+      line-height: 2rem;
+      border-radius: 50%;
+      text-align: center;
+      color: inherit;
+      font-weight: normal;
+      font-size: 1.05rem;
+      margin: 0 auto;
+    }
+
+    .calendar td.sunday .day {
+      color: #e53935; /* 빨간색 */
+    }
+
+    .calendar td.saturday .day {
+      color: #1e88e5; /* 파란색 */
+    }
+
+    .calendar td.today .day {
+      background-color: #ffe0e0;
+      color: #1e88e5;
+      font-weight: bold;
+    }
+
+
+    /* PART 5 */
+    .part5 {
+      max-width: 30rem;
+      padding: 0 0.9375rem;
+      font-size: 0.9rem;
+      color: #444;
+      font-family: 'Noto Serif KR', serif;
+      margin: 0 auto 2.5rem;
+    }
+
+    .part5 .section-title {
+      margin-top: 1.5rem;
+      text-align: center;	/* WHERE */
+      font-size: 0.9rem;
+      color: #999;
+      letter-spacing: 0.1875rem;
+      margin-bottom: 0.5rem;
+    }
+
+    .part5 .address-title {
+      font-size: 1.3rem;
+      font-weight: 600;
+      text-align: center;
+      margin-bottom: 0.5rem;
+    }
+
+    .part5 .address-subtitle {
+      text-align: center;
+      font-size: 1.1rem;
+      color: #666;
+      margin-bottom: 1.5rem;
+    }
+
+
+    /* ✅ 공통 지도 컨테이너 스타일 */
+    .map-container {
+      width: 100%;
+      border-radius: 0.75rem;
+      overflow: hidden;
+      box-shadow: 0 0 0.625rem rgba(0,0,0,0.05);
+      margin-bottom: 0.9375rem;
+    }
+
+    /* ✅ 카카오 지도 wrapper에 높이 지정 (iframe 대신) */
+    .map-container .root_daum_roughmap {
+      width: 100% !important;
+      height: 28.125rem !important; /* 필요에 따라 높이 조절 */
+      border-radius: 0.75rem;
+      overflow: hidden;
+    }
+
+    /* ✅ 카카오 지도 퍼가기 하단 링크/썸네일 숨기기 + 공간 제거 */
+    .map-container .wrap_controllers,
+    .map-container .wrap_map {
+      display: none !important;
+      height: 0 !important;
+      padding: 0 !important;
+      margin: 0 !important;
+    }
+
+
+    .btn-map-image {
+      display: block;
+      width: 8.75rem;
+      padding: 0.625rem 0.9375rem;
+      border-radius: 1.5625rem;
+      border: 0.0625rem solid #ddd;
+      background: white;
+      color: #444;
+      text-align: center;
+      font-weight: 600;
+      cursor: pointer;
+      transition: background 0.3s ease;
+      text-decoration: none;
+      margin: 0 auto 1.25rem;
+    }
+
+    .nav-list {
+      max-width: 30rem;
+      padding: 0;
+      list-style: none;
+      display: flex;	/* block */
+      justify-content: center;
+      gap: 0.9375rem;
+      flex-wrap: wrap;
+      margin: 0 auto 1.5625rem;
+    }
+
+    .nav-list li {
+      font-size: 0.85rem;
+      color: #444;
+    }
+
+    .nav-list li strong {
+      font-weight: 600;
+    }
+
+
+    .transport-info {
+      font-size: 1rem;
+      color: #555;
+      line-height: 1.4;
+      margin-bottom: 2.5rem;
+    }
+
+    /* 교통정보 섹션 전체 스타일 */
+    .transport-info-section {
+      max-width: 30rem;
+      padding: 0;
+      margin: 0 auto 1.5625rem;
+    }
+
+    /* 구분선 스타일 */
+    .transport-divider {
+      height: 0.0625rem; /* 더 얇게 */
+      background-color: #eee; /* 더 연한 회색 */
+      margin: 1.25rem 0;
+    }
+
+    /* 각 교통수단 항목 스타일 */
+    .transport-item {
+      margin-bottom: 1.25rem;
+    }
+
+    /* 교통수단 제목 스타일 (지하철, 버스) */
+    .transport-title {
+      font-size: 1.2rem;
+      font-weight: 700;
+      color: #333;
+      font-family: 'Noto Serif KR', serif;
+      margin: 0 0 0.9375rem 0;
+    }
+
+    /* 버스정류장 제목 스타일 */
+    .bus-stop-title {
+      font-size: 1.05rem;
+      font-weight: 600;
+      color: #555;
+      font-family: 'Noto Serif KR', serif;
+      margin: 0.9375rem 0 0.625rem 0;
+    }
+
+    /* 교통정보 상세 리스트 스타일 */
+    .transport-details {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+    }
+
+    /* 교통정보 각 항목 스타일 */
+    .transport-details li {
+      display: flex;
+      align-items: center;
+      font-size: 1rem;
+      color: #555;
+      line-height: 1.4;
+      margin-bottom: 0.5rem;
+    }
+
+    /* 색상 점 기본 스타일 */
+    .dot {
+      width: 0.8rem;
+      height: 0.8rem;
+      border-radius: 50%;
+      flex-shrink: 0;
+      margin-right: 0.5rem;
+    }
+
+    /* 지하철 색상 점 (초록색) */
+    .subway-dot {
+      background-color: #4CAF50;
+    }
+
+    /* 버스 색상 점 (파란색) */
+    .bus-dot {
+      background-color: #2196F3;
+    }
+
+    /* 자차 색상 점 (주황색) */
+    .mycar-dot {
+      background-color: #FF9800;
+    }
+
+    /* 하차 후 안내사항 스타일 */
+    .transport-note {
+      font-size: 1rem;
+      color: #666;
+      line-height: 1;
+      margin: 0.9375rem 0 0 0;
+    }
+
+
+    /* PART 6 */
+    .part6 {
+      max-width: 30rem;
+      padding: 0 1.25rem;
+      color: #444;
+      text-align: center;
+      margin: 0 auto 2.5rem;
+    }
+
+    .part6 .info-header .label {
+      margin-top: 3rem;
+      font-size: 0.9rem;	/* INFO */
+      color: #999;
+      letter-spacing: 0.1875rem;
+      margin-bottom: 0.5rem;
+    }
+
+    .part6 .info-header h2 {
+      font-size: 1.3rem;	/* 예식정보 및 안내사항 */
+      margin-bottom: 1.5rem;
+    }
+
+    .part6 .info-image img {
+      width: 100%;
+      border-radius: 0.625rem;
+      margin-bottom: 1.5rem;
+    }
+
+    .part6 .info-text p {
+      font-size: 1rem;	/* PC 버전 - 더 큰 폰트 */
+      line-height: 1.6;   /* PC 버전 - 더 넓은 줄 간격 */
+      margin-bottom: 1.5rem;
+      text-align: center;   /* PC 버전 - 왼쪽 정렬 */
+      padding: 0 1rem;    /* PC 버전 - 좌우 여백 */
+    }
+
+    .part6 .info-text strong {
+      font-size: 1rem;	/* "주차장"은 */
+      font-weight: 600;
+    }
+
+    /* 모바일 버전 안내사항 텍스트 스타일 */
+    @media (max-width: 768px) {
+      .part6 .info-text p {
+        font-size: 0.95rem;	/* 모바일 버전 - 작은 폰트 */
+        line-height: 1.6;   /* 모바일 버전 - 적당한 줄 간격 */
+        margin-bottom: 1.25rem;
+        text-align: center;   /* 모바일 버전 - 중앙 정렬 */
+        padding: 0 0.5rem;    /* 모바일 버전 - 작은 여백 */
+      }
+    }
+
+    /* 초소형 모바일 버전 */
+    @media (max-width: 480px) {
+      .part6 .info-text p {
+        font-size: 0.9rem;	/* 초소형 모바일 - 더 작은 폰트 */
+        line-height: 1.5;   /* 초소형 모바일 - 좁은 줄 간격 */
+        margin-bottom: 1rem;
+        padding: 0 0.25rem;    /* 초소형 모바일 - 최소 여백 */
+      }
+    }
+
+    /* 초대사 PC/모바일 버전 분리 */
+    @media (max-width: 768px) {
+      .part1 .invitation-desc {
+        font-size: 1rem;	/* 모바일 버전 - 작은 폰트 */
+        line-height: 1;   /* 모바일 버전 - 적당한 줄 간격 */
+        text-align: center;   /* 모바일 버전 - 중앙 정렬 */
+        padding: 0 0.5rem;    /* 모바일 버전 - 작은 여백 */
+      }
+    }
+
+    @media (max-width: 480px) {
+      .part1 .invitation-desc {
+        font-size: 0.95rem;	/* 초소형 모바일 - 더 작은 폰트 */
+        line-height: 1;   /* 초소형 모바일 - 좁은 줄 간격 */
+        text-align: center;   /* 모바일 버전 - 중앙 정렬 */
+        padding: 0 0.25rem;    /* 초소형 모바일 - 최소 여백 */
+      }
+    }
+
+
+    /* PART 7 */
+    .part7 {
+      max-width: 30rem;
+      padding: 0 1.25rem;
+      color: #444;
+      text-align: center;
+      font-family: 'Noto Serif KR', serif;
+      margin: 0 auto 2.5rem;
+    }
+
+    .part7 .account-header .label {
+      margin-top: 4rem;
+      font-size: 0.9rem;	/* ACCOUNT */
+      color: #999;
+      letter-spacing: 0.125rem;
+      margin-bottom: 0.5rem;
+    }
+
+    .part7 .account-header h2 {
+      font-size: 1.3rem;	/* 마음 전하실 곳 */
+      margin-bottom: 0.35rem;
+    }
+
+    .part7 .account-header .description {
+      font-size: 1.1rem;	/* 참석이 어려우신 분들을 위해~ */
+      line-height: 2;
+      margin-bottom: 2rem;
+    }
+
+    /* 계좌번호 토글 섹션 - 일반 모드용 */
+    .c-account {
+      margin-bottom: 1rem;
+      font-family: 'Noto Serif KR', serif;
+      border: 1px solid #e0e0e0;
+      border-radius: 0.5rem;
+      overflow: hidden;
+      background: #fff;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+    }
+
+    .c-account .title {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 1rem 1.25rem;
+      background: #f8f8f8;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+      border-bottom: 1px solid #e0e0e0;
+    }
+
+    .c-account .title:hover {
+      background: #f0f0f0;
+    }
+
+    .c-account .arrow {
+      transition: transform 0.3s ease;
+    }
+
+    .c-account .arrow.rotate {
+      transform: rotate(180deg);
+    }
+
+    .c-account .text {
+      max-height: 0;
+      overflow: hidden;
+      transition: all 0.3s ease;
+      background: #fff;
+      opacity: 0;
+    }
+
+    .c-account .text.expanded {
+      max-height: 20rem;
+      opacity: 1;
+      padding: 0.5rem 0;
+    }
+
+    
+
+    /* 다크 모드 대응 */
+    @media (prefers-color-scheme: dark) {
+      body {
+        background: #1a1a1a;
+        color: #333;
+      }
+      
+      .container {
+        background: #ffffff;
+        color: #333;
+      }
+      
+      .part1 {
+        background-color: #ffffff;
+      }
+      
+      .part2 {
+        background: #ffffff;
+      }
+      
+      .gallery-section {
+        background-color: #ffffff;
+      }
+      
+      .part4 {
+        background-color: #ffffff;
+      }
+      
+      .part5 {
+        background-color: #ffffff;
+      }
+      
+      .part6 {
+        background-color: #ffffff;
+      }
+      
+      .part7 {
+        background-color: #ffffff;
+      }
+      
+      .transport-info-section {
+        background-color: #ffffff;
+      }
+      
+      .btn-map-image {
+        background: #ffffff;
+        color: #444;
+      }
+          
+      
+      /* 계좌번호 전체 박스 */
+      .c-account {
+        margin-bottom: 1rem;
+        font-family: 'Noto Sans KR', '맑은 고딕', sans-serif; /* 폰트 고정 */
+      }
+
+      .c-account .item {
+        border: 1px solid #e0e0e0;
+        border-radius: 0.5rem;
+        overflow: hidden;
+      }
+
+      /* 상단 토글 버튼 */
+      .c-account .title {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 1rem 1.25rem;
+        background: #f8f8f8;
+        cursor: pointer;
+        transition: background-color 0.3s ease;
+      }
+      
+      .c-account .title:hover {
+        background: #f0f0f0;
+      }
+      
+      .c-account .arrow {
+        transition: transform 0.3s ease;
+      }
+      
+      .c-account .arrow.rotate {
+        transform: rotate(180deg);
+      }
+      
+      /* 펼쳐지는 영역 */
+      .c-account .text {
+        max-height: 0;
+        overflow: hidden;
+        transition: all 0.3s ease;
+        background: #fff;
+      }
+      
+      .c-account .text.expanded {
+        max-height: 20rem; /* 충분히 큰 값으로 */
+        opacity: 1;
+      }
+
+
+    }
+  </style>
+</head>
+
+<body>
+  <div class="container">
+    <!-- Part 1 -->
+    <section class="part1">
+      <div class="date">2025 / 11 / 01</div>
+      <div class="weekday">SATURDAY</div>
+      <img src="images/basic_photo_1.jpg" alt="웨딩 사진" />
+      <div class="names">공선호 ・ 조아라</div>
+      <div class="details">2025년 11월 1일 토요일 오후 2시
+더에스웨딩홀 1F, 그랜드홀</div>
+
+      <div class="invitation-label">INVITATION</div>
+      <div class="invitation-text">소중한 분들을 초대합니다</div>
+      <div class="invitation-desc">
+        10년 전, 서로의 세계에 스며든 두 사람은<br />
+        함께 성장하며 사랑과 신뢰를 키워왔습니다.<br /><br />
+        처음 마주한 날부터 지금까지<br />
+        서로와의 대화가 가장 즐거웠기에<br />
+        자연스레 함께할 미래를 꿈꾸게 되었습니다.<br /><br />
+        그렇게 오랜 시간 함께 자라 온 저희가<br />
+        이제 '가족'이라는 이름으로<br />
+        새로운 삶의 여정을 시작하려 합니다.<br /><br />
+        저희의 시작에 소중한 순간을 함께해주세요.
+      </div>
+    </section>
+
+    <!-- Part 2 -->
+    <section class="part2">
+      <img src="images/basic_photo_2.jpg" alt="가족 사진" />
+      <div class="family-names">
+        <span>공희열 · 박미애의&nbsp;아들&nbsp;공선호</span>
+        <span>조수만 · 김영옥의&nbsp;&nbsp;딸&nbsp;&nbsp;&nbsp;조아라</span>
+      </div>
+    </section>
+
+    <!-- Part 3: 웨딩 갤러리 -->
+    <section class="part3 gallery-section">
+      <div class="section-header">
+        <p class="label">GALLERY</p>
+        <h2>웨딩 갤러리</h2>
+      </div>
+
+      <div class="gallery-grid">
+        <!-- 항상 보이는 이미지 4장 -->
+        <img src="images/gallery1.jpg" alt="gallery1" />
+        <img src="images/gallery2.jpg" alt="gallery2" />
+        <img src="images/gallery3.jpg" alt="gallery3" />
+        <img src="images/gallery4.jpg" alt="gallery4" />
+
+        <!-- 토글로 보이고 감춰질 이미지들 -->
+        <img src="images/gallery5.jpg" alt="gallery5" class="toggle-image hidden" />
+        <img src="images/gallery6.jpg" alt="gallery6" class="toggle-image hidden" />
+        <img src="images/gallery7.jpg" alt="gallery7" class="toggle-image hidden" />
+        <img src="images/gallery8.jpg" alt="gallery8" class="toggle-image hidden" />
+        <img src="images/gallery9.jpg" alt="gallery9" class="toggle-image hidden" />
+        <img src="images/gallery10.jpg" alt="gallery10" class="toggle-image hidden" />
+        <img src="images/gallery11.jpg" alt="gallery11" class="toggle-image hidden" />
+        <img src="images/gallery12.jpg" alt="gallery12" class="toggle-image hidden" />
+        <img src="images/gallery13.jpg" alt="gallery13" class="toggle-image hidden" />
+        <img src="images/gallery14.jpg" alt="gallery14" class="toggle-image hidden" />
+        <img src="images/gallery15.jpg" alt="gallery15" class="toggle-image hidden" />
+        <img src="images/gallery16.jpg" alt="gallery16" class="toggle-image hidden" />
+      </div>
+
+      <div class="gallery-button-wrapper">
+        <button id="toggleGalleryBtn" class="btn-show-more">더보기 ▼</button>
+      </div>
+
+      <script>
+        const toggleBtn = document.getElementById("toggleGalleryBtn");
+        const toggleImages = document.querySelectorAll(".toggle-image");
+
+        let expanded = false;
+
+        toggleBtn.addEventListener("click", () => {
+          expanded = !expanded;
+
+          toggleImages.forEach(img => {
+            if (expanded) {
+              img.classList.remove("hidden");
+            } else {
+              img.classList.add("hidden");
+            }
+          });
+
+          toggleBtn.textContent = expanded ? "접기 ▲" : "더보기 ▼";
+        });
+
+        // 갤러리 이미지 클릭 이벤트
+        document.querySelectorAll('.gallery-grid img').forEach(img => {
+          img.addEventListener('click', function() {
+            const modalOverlay = document.getElementById('modalOverlay');
+            const modalImage = document.getElementById('modalImage');
+            
+            modalImage.src = this.src;
+            modalImage.alt = this.alt;
+            modalOverlay.style.display = 'flex';
+          });
+        });
+
+        // 모달 오버레이 클릭 시 닫기 (원래 페이지로 돌아가기)
+        document.addEventListener('DOMContentLoaded', function() {
+          const modalOverlay = document.getElementById('modalOverlay');
+          const modalImage = document.getElementById('modalImage');
+          
+          if (modalOverlay) {
+            modalOverlay.addEventListener('click', function(e) {
+              // 모달 이미지 자체를 클릭한 경우에도 닫기
+              if (e.target === this || e.target === modalImage) {
+                this.style.display = 'none';  // 모달을 완전히 숨김
+              }
+            });
+          }
+        });
+
+        // ESC 키로 모달 닫기
+        document.addEventListener('keydown', function(e) {
+          if (e.key === 'Escape') {
+            document.getElementById('modalOverlay').style.display = 'none';
+          }
+        });
+        </script>
+
+      </script>
+
+    </section>
+
+
+    <!-- Part 4 -->
+    <section class="part4">
+      <div class="calendar-header">2025.11.01</div>
+      <div class="calendar-subheader">토요일 오후 2시</div>
+
+      <table class="calendar">
+        <thead>
+          <tr>
+            <th>일</th><th>월</th><th>화</th><th>수</th><th>목</th><th>금</th><th>토</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td class="empty"></td><td class="empty"></td><td class="empty"></td><td class="empty"></td><td class="empty"></td><td class="empty"></td>
+            <td class="saturday today"><div class="day">1</div></td>
+          </tr>
+          <tr>
+            <td class="sunday"><div class="day">2</div></td><td><div class="day">3</div></td><td><div class="day">4</div></td><td><div class="day">5</div></td><td><div class="day">6</div></td><td><div class="day">7</div></td><td class="saturday"><div class="day">8</div></td>
+          </tr>
+          <tr>
+            <td class="sunday"><div class="day">9</div></td><td><div class="day">10</div></td><td><div class="day">11</div></td><td><div class="day">12</div></td><td><div class="day">13</div></td><td><div class="day">14</div></td><td class="saturday"><div class="day">15</div></td>
+          </tr>
+          <tr>
+            <td class="sunday"><div class="day">16</div></td><td><div class="day">17</div></td><td><div class="day">18</div></td><td><div class="day">19</div></td><td><div class="day">20</div></td><td><div class="day">21</div></td><td class="saturday"><div class="day">22</div></td>
+          </tr>
+          <tr>
+            <td class="sunday"><div class="day">23</div></td><td><div class="day">24</div></td><td><div class="day">25</div></td><td><div class="day">26</div></td><td><div class="day">27</div></td><td><div class="day">28</div></td><td class="saturday"><div class="day">29</div></td>
+          </tr>
+          <tr>
+            <td class="sunday"><div class="day">30</div></td><td class="empty"></td><td class="empty"></td><td class="empty"></td><td class="empty"></td><td class="empty"></td><td class="empty"></td>
+          </tr>
+        </tbody>
+      </table>
+    </section>
+
+
+    <!-- Part 5 -->
+    <section class="part5">
+      <p class="section-title">WHERE</p>
+      <h2 class="address-title">W웨딩 더에스웨딩홀 1F, 그랜드홀</h2>
+      <p class="address-subtitle">부산 남구 전포대로 26</p>
+
+      <div class="map-container">
+        <div style="font:normal normal 400 12px/normal dotum, sans-serif; width:640px; height:392px; color:#333; position:relative"><div style="height: 360px;"><a href="https://map.kakao.com/?urlX=971173.0000003246&amp;urlY=461255.0000000058&amp;itemId=631502686&amp;q=%EB%8D%94S%EC%9B%A8%EB%94%A9%ED%99%80&amp;srcid=631502686&amp;map_type=TYPE_MAP&amp;from=roughmap" target="_blank"><img class="map" src="http://t1.daumcdn.net/roughmap/imgmap/f3376df8ff0d6bc45f483399acbaefec04fda69bb758ab2f08b054487ea02f36" width="638px" height="358px" style="border:1px solid #ccc;"></a></div><div style="overflow: hidden; padding: 7px 11px; border: 1px solid rgba(0, 0, 0, 0.1); border-radius: 0px 0px 2px 2px; background-color: rgb(249, 249, 249);"><a href="https://map.kakao.com" target="_blank" style="float: left;"><img src="//t1.daumcdn.net/localimg/localimages/07/2018/pc/common/logo_kakaomap.png" width="72" height="16" alt="카카오맵" style="display:block;width:72px;height:16px"></a><div style="float: right; position: relative; top: 1px; font-size: 11px;"><a target="_blank" href="https://map.kakao.com/?from=roughmap&amp;srcid=631502686&amp;confirmid=631502686&amp;q=%EB%8D%94S%EC%9B%A8%EB%94%A9%ED%99%80&amp;rv=on" style="float:left;height:15px;padding-top:1px;line-height:15px;color:#000;text-decoration: none;">로드뷰</a><span style="width: 1px;padding: 0;margin: 0 8px 0 9px;height: 11px;vertical-align: top;position: relative;top: 2px;border-left: 1px solid #d0d0d0;float: left;"></span><a target="_blank" href="https://map.kakao.com/?from=roughmap&amp;eName=%EB%8D%94S%EC%9B%A8%EB%94%A9%ED%99%80&amp;eX=971173.0000003246&amp;eY=461255.0000000058" style="float:left;height:15px;padding-top:1px;line-height:15px;color:#000;text-decoration: none;">길찾기</a><span style="width: 1px;padding: 0;margin: 0 8px 0 9px;height: 11px;vertical-align: top;position: relative;top: 2px;border-left: 1px solid #d0d0d0;float: left;"></span><a target="_blank" href="https://map.kakao.com?map_type=TYPE_MAP&amp;from=roughmap&amp;srcid=631502686&amp;itemId=631502686&amp;q=%EB%8D%94S%EC%9B%A8%EB%94%A9%ED%99%80&amp;urlX=971173.0000003246&amp;urlY=461255.0000000058" style="float:left;height:15px;padding-top:1px;line-height:15px;color:#000;text-decoration: none;">지도 크게 보기</a></div></div><div><span style="border-bottom:0px none #333333;position:absolute;left:-25px;top:-136px;width:0px;height:40px"></span></div></div>
+      </div>
+
+      <!-- 교통정보 섹션 -->
+      <div class="transport-info-section">
+        <!-- 구분선 -->
+        <div class="transport-divider"></div>
+        
+        <!-- 지하철 정보 -->
+        <div class="transport-item">
+          <h3 class="transport-title">지하철</h3>
+          <ul class="transport-details">
+            <li><span class="dot subway-dot"></span>2호선 문현역 2번 출구, 4번 출구</li>
+          </ul>
+        </div>
+        
+        <!-- 구분선 -->
+        <div class="transport-divider"></div>
+        
+        <!-- 버스 정보 -->
+        <div class="transport-item">
+          <h3 class="transport-title">버스</h3>
+          <!-- 첫 번째 버스정류장 -->
+          <div class="bus-stop">
+            <h4 class="bus-stop-title">문현 삼성아파트 하차</h4>
+            <ul class="transport-details">
+              <li><span class="dot bus-dot"></span>24번</li>
+            </ul>
+          </div>
+          <!-- 두 번째 버스정류장 -->
+          <div class="bus-stop">
+            <h4 class="bus-stop-title">문현교차로 하차</h4>
+            <ul class="transport-details">
+              <li><span class="dot bus-dot"></span>10, 22, 24, 27, 40, 41, 42, 68, 83번</li>
+            </ul>
+          </div>
+        </div>
+        
+        <!-- 구분선 -->
+        <div class="transport-divider"></div>
+
+        <!-- 자가용 정보 -->
+        <div class="transport-item">
+          <h3 class="transport-title">자가용</h3>
+          <ul class="transport-details">
+            <li><span class="dot mycar-dot"></span>삼성힐타워 아파트 지하 1층 주차장</li>
+          </ul>
+          <!-- 하차 후 안내사항 -->
+          <p class="transport-note">&nbsp;&nbsp;&nbsp;&nbsp;(지하철 4번 출구 지나서 우회전)</p>
+        </div>
+
+        <!-- 구분선 -->
+        <div class="transport-divider"></div>
+      </div>
+
+    </section>
+
+    <!-- Part 6 -->
+    <section class="part6">
+      <div class="info-header">
+        <p class="label">INFO</p>
+        <h2>안내사항</h2>
+      </div>
+
+      <div class="info-image">
+        <img src="images/parking_lot_photo.jpg" alt="주차장" />
+      </div>
+
+      <div class="info-text">
+        <p>
+          삼성힐타워 아파트 지하 1층 주차장<br>
+          이용 가능합니다.<br><br>
+          무료 주차권 제공 예정이니<br>
+          현장 문의 부탁드립니다.<br><br>
+          주차 공간이 협소할 수 있어, 원활한 주차를 위해<br>
+          여유 있게 도착해 주시면 감사하겠습니다.<br><br>
+          전세 버스는 경남 창녕군 관조할인마트 앞에서<br>
+          오전 11시 30분에 출발합니다.
+        </p>
+      </div>
+
+    </section>
+
+    <!-- Part 7 -->
+    <section class="part7">
+      <div class="account-header">
+        <p class="label">ACCOUNT</p>
+        <h2>마음 전하실 곳</h2>
+      </div>
+
+      <!-- 신랑측 계좌번호 -->
+      <div class="c-account fade-in">
+        <div class="item">
+          <div class="title" onclick="toggleAccount('groom')">
+            <div>신랑측 계좌번호</div>
+            <div class="arrow" id="groom-arrow">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <polyline points="6,9 12,15 18,9"></polyline>
+              </svg>
+            </div>
+          </div>
+          <div class="text gothic" id="groom-content" style="height: 0; opacity: 0;">
+            <div class="account-row">
+              <span class="bank">농협</span>
+              <span class="account-number">807133-52-002072</span>
+              <span class="account-holder">공희열</span>
+              <div class="btn-action" onclick="copyAccount('807133-52-002072')">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
+                  <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
+                </svg>
+                복사
+              </div>
+            </div>
+            <div class="account-row">
+              <span class="bank">농협</span>
+              <span class="account-number">312-3885-0340-81</span>
+              <span class="account-holder">박미애</span>
+              <div class="btn-action" onclick="copyAccount('312-3885-0340-81')">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
+                  <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
+                </svg>
+                복사
+              </div>
+            </div>
+            <div class="account-row">
+              <span class="bank">신한</span>
+              <span class="account-number">110-459644-306</span>
+              <span class="account-holder">공선호</span>
+              <div class="btn-action" onclick="copyAccount('110-459644-306')">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
+                  <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
+                </svg>
+                복사
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- 신부측 계좌번호 -->
+      <div class="c-account fade-in">
+        <div class="item">
+          <div class="title" onclick="toggleAccount('bride')">
+            <div>신부측 계좌번호</div>
+            <div class="arrow" id="bride-arrow">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <polyline points="6,9 12,15 18,9"></polyline>
+              </svg>
+            </div>
+          </div>
+          <div class="text gothic" id="bride-content" style="height: 0; opacity: 0;">
+            <div class="account-row">
+              <span class="bank">신한</span>
+              <span class="account-number">110-419-158110</span>
+              <span class="account-holder">조수만</span>
+              <div class="btn-action" onclick="copyAccount('110-419-158110')">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
+                  <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
+                </svg>
+                복사
+              </div>
+            </div>
+            <div class="account-row">
+              <span class="bank">농협</span>
+              <span class="account-number">204065-52-208423</span>
+              <span class="account-holder">김영옥</span>
+              <div class="btn-action" onclick="copyAccount('204065-52-208423')">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
+                  <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
+                </svg>
+                복사
+              </div>
+            </div>
+            <div class="account-row">
+              <span class="bank">우리</span>
+              <span class="account-number">1002-755-457938</span>
+              <span class="account-holder">조아라</span>
+              <div class="btn-action" onclick="copyAccount('1002-755-457938')">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
+                  <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
+                </svg>
+                복사
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  </div>
+
+  <!-- 카카오맵 스크립트 -->
+  <!--
+    2. 설치 스크립트
+    * 지도 퍼가기 서비스를 2개 이상 넣을 경우, 설치 스크립트는 하나만 삽입합니다.
+  -->
+  <script charset="UTF-8" class="daum_roughmap_loader_script" src="https://ssl.daumcdn.net/dmaps/map_js_init/roughmapLoader.js"></script>
+
+  <!-- 3. 실행 스크립트 -->
+  <script charset="UTF-8">
+    new daum.roughmap.Lander({
+      "timestamp" : "1755768619718",
+      "key" : "7dqijhb2zv9",
+      "mapWidth" : "640",
+      "mapHeight" : "360"
+    }).render();
+  </script>
+
+
+  <!-- 새로운 토글 JavaScript 추가 -->
+  <script>
+    function toggleAccount(type) {
+      const content = document.getElementById(type + '-content');
+      const arrow = document.getElementById(type + '-arrow');
+      
+      if (content.style.height === '0px' || content.style.height === '') {
+        content.style.height = 'auto';
+        content.style.opacity = '1';
+        content.classList.add('expanded');
+        arrow.classList.add('rotate');
+      } else {
+        content.style.height = '0';
+        content.style.opacity = '0';
+        content.classList.remove('expanded');
+        arrow.classList.remove('rotate');
+      }
+    }
+    
+    function copyAccount(accountNumber) {
+      navigator.clipboard.writeText(accountNumber).then(() => {
+        alert('계좌번호가 복사되었습니다: ' + accountNumber);
+      }).catch(err => {
+        const textArea = document.createElement('textarea');
+        textArea.value = accountNumber;
+        document.body.appendChild(textArea);
+        textArea.select();
+        document.execCommand('copy');
+        document.body.removeChild(textArea);
+        alert('계좌번호가 복사되었습니다: ' + accountNumber);
+      });
+    }
+  </script>
+  
+
+  <!-- 모바일 최적화 JavaScript 추가 -->
+  <script>
+  // 모바일 터치 이벤트 최적화
+  document.addEventListener('DOMContentLoaded', function() {
+    // 터치 이벤트 최적화
+    let touchStartY = 0;
+    let touchEndY = 0;
+    
+    document.addEventListener('touchstart', function(e) {
+      touchStartY = e.touches[0].clientY;
+    }, { passive: true });
+    
+    document.addEventListener('touchend', function(e) {
+      touchEndY = e.changedTouches[0].clientY;
+    }, { passive: true });
+    
+    // 모바일에서 더블탭 줌 방지
+    let lastTouchEnd = 0;
+    document.addEventListener('touchend', function(event) {
+      const now = (new Date()).getTime();
+      if (now - lastTouchEnd <= 300) {
+        event.preventDefault();
+      }
+      lastTouchEnd = now;
+    }, false);
+    
+    // 모바일 스크롤 성능 최적화
+    document.addEventListener('scroll', function() {
+      // 스크롤 이벤트 최적화
+    }, { passive: true });
+  });
+
+  // 모바일 복사 기능 개선
+  function copyAccount(accountNumber) {
+    // 모바일에서 복사 성공률 향상
+    if (navigator.clipboard && window.isSecureContext) {
+      navigator.clipboard.writeText(accountNumber).then(() => {
+        showMobileToast('계좌번호가 복사되었습니다!');
+      }).catch(() => {
+        fallbackCopy(accountNumber);
+      });
+    } else {
+      fallbackCopy(accountNumber);
+    }
+  }
+
+  // 모바일 토스트 메시지
+  function showMobileToast(message) {
+    const toast = document.createElement('div');
+    toast.textContent = message;
+    toast.style.cssText = `
+      position: fixed;
+      bottom: 20px;
+      left: 50%;
+      transform: translateX(-50%);
+      background: #333;
+      color: white;
+      padding: 12px 20px;
+      border-radius: 25px;
+      z-index: 10000;
+      font-size: 14px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+      animation: slideUp 0.3s ease;
+    `;
+    
+    // 모바일 애니메이션
+    const style = document.createElement('style');
+    style.textContent = `
+      @keyframes slideUp {
+        from { transform: translateX(-50%) translateY(100%); opacity: 0; }
+        to { transform: translateX(-50%) translateY(0); opacity: 1; }
+      }
+    `;
+    document.head.appendChild(style);
+    
+    document.body.appendChild(toast);
+    
+    setTimeout(() => {
+      document.body.removeChild(toast);
+    }, 2000);
+  }
+  </script>
+
+
+  <!-- 모달 오버레이 추가 (body 태그 안, container div 밖에) -->
+  <div class="modal-overlay" id="modalOverlay">
+    <img class="modal-image" id="modalImage" src="" alt="확대된 이미지" />
+  </div>
+
+</body>
+</html>
